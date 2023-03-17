@@ -1,0 +1,19 @@
+<div class="card my-5">
+    <div class="card-body">
+      <form (ngSubmit)="onSubmit()" #newGameForm="ngForm">
+        <div class="form-group">
+          <label for="user">User</label>
+          <input type="text" [(ngModel)]="user.nickname" 
+            class="form-control" 
+            id="user" 
+            name="user" 
+            placeholder="Enter your user to play"
+            required #nickname="ngModel">
+        </div>
+        <div [hidden]="!user.nickname" class="alert alert-danger">User is required</div>
+        <button type="submit" [disabled]="!newGameForm.form.valid" 
+          class="btn btn-info">Submit</button>
+      </form>
+    </div>
+  </div>
+  

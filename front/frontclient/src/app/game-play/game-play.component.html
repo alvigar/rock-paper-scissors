@@ -1,0 +1,6 @@
+<div *ngIf="showDialog" class="dialog">
+    <p>{{ message }}</p>
+</div>
+<button (click)="makeMovement('ROCK')">Piedra</button>
+<button (click)="makeMovement('PAPER')">Papel</button>
+<button (click)="makeMovement('SCISSORS')">Tijera</button>

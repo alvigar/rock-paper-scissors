@@ -1,0 +1,54 @@
+<div *ngIf="showDialog" class="dialog">
+  <p>{{ message }}</p>
+</div>
+<div class="card my-5">
+  <div class="card-body">
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+    <table mat-table class="table table-bordered table-striped" [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th scope="col" *matHeaderCellDef>#</th>
+        <td *matCellDef="let game">{{game.id}}</td>
+      </ng-container>
+      <ng-container matColumnDef="user">
+        <th scope="col" *matHeaderCellDef>User</th>
+        <td *matCellDef="let game">{{game.user}}</td>
+      </ng-container>
+      <ng-container matColumnDef="winner">
+        <th scope="col" *matHeaderCellDef>Winner</th>
+        <td *matCellDef="let game">{{game.winnerPlayer}}</td>
+      </ng-container>
+      <ng-container matColumnDef="movements">
+        <th scope="col" *matHeaderCellDef>Movements</th>
+        <td *matCellDef="let game">
+          <div *ngIf="game.winnerPlayer">
+            <table class="movements">
+              <thead>
+                <tr>
+                  <th scope="col">Player</th>
+                  <th scope="col">Machine</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let mov of game.tuple">
+                  <td>{{ mov.player }}</td>
+                  <td>{{ mov.machine }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="play">
+        <th scope="col" *matHeaderCellDef>Play</th>
+        <td *matCellDef="let game"><a href="#" *ngIf="!game.winnerPlayer" [routerLink]="['/play']"
+            [queryParams]="{ game_id: game.id }">Play</a></td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [length]="dataSource.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+</div>
