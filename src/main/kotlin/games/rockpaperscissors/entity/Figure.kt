@@ -23,8 +23,8 @@ enum class Figure {
             else null
         }
         if (f1.figure === SCISSORS) {
-            return if (f2.figure === PAPER) f2.player
-            else if (f2.figure === ROCK) f1.player
+            return if (f2.figure === ROCK) f2.player
+            else if (f2.figure === PAPER) f1.player
             else null
         }
         return null
