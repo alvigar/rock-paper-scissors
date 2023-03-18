@@ -16,3 +16,29 @@ CREATE TABLE IF NOT EXISTS movement (
         FOREIGN KEY (game_id)
             REFERENCES game(id)
 );
+
+CREATE TABLE IF NOT EXISTS "user" (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    nickname VARCHAR NOT NULL,
+    user_password VARCHAR NOT NULL,
+    enabled BOOL NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS "role" (
+    id INT GENERATED ALWAYS AS IDENTITY,
+    role_name VARCHAR NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS user_role (
+    id_user INT NOT NULL,
+    id_role INT NOT NULL,
+    PRIMARY KEY (id_user, id_role),
+    CONSTRAINT fk_user
+        FOREIGN KEY (id_user)
+            REFERENCES "user"(id),
+    CONSTRAINT fk_role
+        FOREIGN KEY (id_role)
+            REFERENCES "role"(id)
+)

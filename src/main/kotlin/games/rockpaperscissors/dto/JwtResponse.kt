@@ -1,4 +1,8 @@
 package games.rockpaperscissors.dto
 
-class JwtResponse {
-}
+data class JwtResponse(
+    val token: String,
+    val id: Int,
+    val username: String,
+    val roles: List<String>
+)

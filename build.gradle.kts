@@ -29,7 +29,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
 	implementation("org.postgresql:postgresql:42.3.1")
 	implementation("javax.xml.bind:jaxb-api:2.3.1")
-
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 }
 
 allOpen {
