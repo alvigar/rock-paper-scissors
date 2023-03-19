@@ -1,12 +1,9 @@
 import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
-import { Game } from '../game';
-import { GameService } from '../game.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FIGURE } from '../figure';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import { GameDataSource } from '../gameDataSource';
+import { MatPaginator } from '@angular/material/paginator';
 import { tap } from 'rxjs';
+import { GameService } from 'src/app/services/game.service';
+import { GameDataSource } from 'src/app/helpers/gameDataSource';
 
 
 @Component({

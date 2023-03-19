@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GameService } from '../game.service';
-import { FIGURE } from '../figure';
+import { GameService } from '../../services/game.service';
+import { FIGURE } from '../../figure';
 
 @Component({
   selector: 'app-game-play',
@@ -28,7 +28,7 @@ export class GamePlayComponent {
   makeMovement(movement: FIGURE) {
     this.gameService.play(this.game_id as number, movement).subscribe(game => {
       if (game.winnerPlayer) {
-        this.router.navigate([''], { queryParams: { message: game.winnerPlayer === 'PLAYER' ? 'Congrats! You win!' : 'Sorry... Best luck next time...' } })
+        this.router.navigate([''], { queryParams: { message: game.winnerPlayer === 'PERSON' ? 'Congrats! You win!' : 'Sorry... Best luck next time...' } })
       } else {
         this.router.navigate(['/play'], {queryParams: {game_id: this.game_id, message: `Ops! The machine also plays ${movement}` }})
       }

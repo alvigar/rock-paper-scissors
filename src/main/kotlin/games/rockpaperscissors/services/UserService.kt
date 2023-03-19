@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -19,27 +20,28 @@ import org.springframework.web.server.ResponseStatusException
 @Service
 class UserService(private val userRepository: UserRepository,
                   private val authenticationManager: AuthenticationManager,
+                  private val encoder: PasswordEncoder,
                   private val jwtUtils: JwtUtils) {
 
-    fun signUp(userDTO: UserDTO): String {
+    fun signUp(userDTO: UserDTO): ResponseEntity<String> {
         if (userDTO.password != null) {
             try {
                 val existsUser = userRepository.findUserByNickname(userDTO.user)
                 if (!existsUser.isEmpty) {
-                    throw ResponseStatusException(HttpStatusCode.valueOf(400), "User ${userDTO.user} already exists")
+                    return ResponseEntity.badRequest().body("Error: ${userDTO.user} already exists")
                 }
                 val newUser = User(
                     nickname = userDTO.user,
-                    userPassword = userDTO.password,
+                    userPassword = encoder.encode(userDTO.password),
                     enabled = true,
                     roles = buildSet { ERole.USER })
                 userRepository.save(newUser)
-                return "${userDTO.user} created successfully"
+                return ResponseEntity.ok().body("${userDTO.user} created successfully")
             } catch (error: Error) {
-                throw ResponseStatusException(HttpStatusCode.valueOf(500), "Error creating user: ${error.message}")
+                return ResponseEntity.internalServerError().body("Error creating user: ${error.message}")
             }
         } else {
-            throw ResponseStatusException(HttpStatusCode.valueOf(400), "Password is required")
+            return ResponseEntity.badRequest().body("Password is required")
         }
     }
 
@@ -50,8 +52,8 @@ class UserService(private val userRepository: UserRepository,
         SecurityContextHolder.getContext().authentication = authentication
         val myJwt = jwtUtils.generateJwtToken(authentication)
 
-        val user = authentication.principal as User
+        val user = authentication.principal as UserDetails
         val roles = user.authorities.map { item -> item.authority }
-        return ResponseEntity.ok(user.id?.let { JwtResponse(token = myJwt, id = it, username = user.nickname, roles = roles ) })
+        return ResponseEntity.ok( JwtResponse(token = myJwt, username = user.username, roles = roles ) )
     }
 }

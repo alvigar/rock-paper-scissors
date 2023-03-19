@@ -3,16 +3,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GameListComponent } from './game-list/game-list.component';
-import { NewGameFormComponent } from './newgame-form/newgame-form.component';
-import { GameService } from './game.service';
+import { GameListComponent } from './components/game-list/game-list.component';
+import { NewGameFormComponent } from './components/newgame-form/newgame-form.component';
+import { GameService } from './services/game.service';
 import { HttpClientModule } from '@angular/common/http';
-import { GamePlayComponent } from './game-play/game-play.component';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
+import { GamePlayComponent } from './components/game-play/game-play.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -21,7 +24,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     GameListComponent,
     NewGameFormComponent,
     GamePlayComponent,
-    NavigationBarComponent
+    RegisterComponent,
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +38,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatProgressSpinnerModule
   ],
-  providers: [GameService],
+  providers: [GameService, httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,6 +8,7 @@ import games.rockpaperscissors.repository.GameRepository
 import games.rockpaperscissors.repository.MovementRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.HttpClientErrorException.NotFound
 import org.springframework.web.server.ResponseStatusException
@@ -21,22 +22,19 @@ class GameService {
     @Autowired
     lateinit var movementService: MovementService
 
-    fun games(): List<Game> = gameRepository.findAll().toList()
+    fun games(): ResponseEntity<List<Game>> = ResponseEntity.ok().body(gameRepository.findAll().toList())
 
-    fun newGame(user: String): Game {
+    fun newGame(user: String): ResponseEntity<Game> {
         val game = Game(user = user)
-        return gameRepository.save(game)
+        return ResponseEntity.ok().body(gameRepository.save(game))
     }
 
-    fun getGame(id: Int): Game {
+    fun getGame(id: Int): ResponseEntity<Game> {
         val game = gameRepository.findById(id)
-        if (!game.isEmpty) {
-            return game.get()
-        }
-        throw ResponseStatusException(HttpStatusCode.valueOf(404), "Game $id not found")
+        return ResponseEntity.of(game)
     }
 
-    fun play(id: Int, figure: Figure): Game {
+    fun play(id: Int, figure: Figure): ResponseEntity<out Any> {
         val game = gameRepository.findById(id)
         if (!game.isEmpty) {
             val gameValue = game.get()
@@ -49,14 +47,14 @@ class GameService {
                         gameValue.winnerPlayer = winnerPlayer
                         gameValue.winner = winnerPlayer == Player.PERSON;
                     }
-                    return gameRepository.save(gameValue)
+                    return ResponseEntity.ok().body(gameRepository.save(gameValue))
                 }catch (e: Error) {
-                    throw ResponseStatusException(HttpStatusCode.valueOf(500), "Game $id internal error: ${e.localizedMessage}")
+                    return ResponseEntity.internalServerError().body("Game $id internal error: ${e.localizedMessage}")
                 }
             }
-            throw ResponseStatusException(HttpStatusCode.valueOf(409), "Game $id already finished")
+            return ResponseEntity.unprocessableEntity().body("Game $id already finished")
         } else {
-            throw ResponseStatusException(HttpStatusCode.valueOf(404), "Game $id not found")
+            return ResponseEntity.of(game)
         }
     }
 }

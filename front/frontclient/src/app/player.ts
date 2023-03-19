@@ -1,1 +1,1 @@
-export type PLAYER = 'PLAYER' | 'MACHINE';
+export type PLAYER = 'PERSON' | 'MACHINE';

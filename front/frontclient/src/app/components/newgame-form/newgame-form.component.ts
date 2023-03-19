@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Game } from '../game';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GameService } from '../game.service';
-import { User } from '../interfaces/User';
+import { GameService } from '../../services/game.service';
+import { User } from '../../interfaces/User';
 
 @Component({
   selector: 'app-newgame-form',
@@ -10,21 +9,22 @@ import { User } from '../interfaces/User';
   styleUrls: ['./newgame-form.component.css']
 })
 export class NewGameFormComponent {
-  @Input() user: User;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private gameService: GameService
   ) {
-    this.user = new User()
   }
 
   onSubmit() {
-    this.gameService.newGame(this.user as User).subscribe(result => this.gotoNewGame(result.id as number))
+    this.gameService.newGame().subscribe({
+      next: result => this.gotoNewGame(result.id as number),
+      error: err => console.error(err)
+    })
   }
 
   gotoNewGame(id: number) {
-    this.router.navigate(['/play'], { queryParams: { game_id: id }})
+    this.router.navigate(['/play'], { queryParams: { game_id: id } })
   }
 }

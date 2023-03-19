@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.security.SignatureException
@@ -21,10 +22,10 @@ class JwtUtils {
     @Value("\${app.jwtExpirationMs}")
     private val jwtExpirationMs = 0
     fun generateJwtToken(authentication: Authentication): String {
-        val userPrincipal: User = authentication.principal as User
+        val userPrincipal = authentication.principal as UserDetails
         val keyBytes = Decoders.BASE64.decode(jwtSecret)
         val key: Key = Keys.hmacShaKeyFor(keyBytes)
-        return Jwts.builder().setSubject(userPrincipal.getUsername()).setIssuedAt(Date())
+        return Jwts.builder().setSubject(userPrincipal.username).setIssuedAt(Date())
             .setExpiration(Date(Date().time + jwtExpirationMs)).signWith(key, SignatureAlgorithm.HS512)
             .compact()
     }

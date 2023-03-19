@@ -1,8 +1,8 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
-import { Game } from "./game";
+import { Game } from "../game";
 import { BehaviorSubject, Observable, catchError, finalize, of } from "rxjs";
-import { GameService } from "./game.service";
-import { FIGURE } from "./figure";
+import { GameService } from "../services/game.service";
+import { FIGURE } from "../figure";
 
 export class GameDataSource implements DataSource<Game> {
 

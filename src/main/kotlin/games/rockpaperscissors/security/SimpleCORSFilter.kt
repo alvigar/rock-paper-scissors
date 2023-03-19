@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class SimpleCORSFilter : Filter {
+class SimpleCORSFilter() : Filter {
 
     val log: Logger = LoggerFactory.getLogger("SimpleCORSFilter");
-    constructor() {
+
+    init {
         log.info("SimpleCORSFilter init")
     }
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
