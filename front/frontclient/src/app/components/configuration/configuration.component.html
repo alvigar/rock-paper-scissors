@@ -1,0 +1,79 @@
+<mat-card [ngClass]="{'good': !isError, 'bad': isError}" *ngIf="showDialog">
+    <mat-card-content>{{ message }}</mat-card-content>
+</mat-card>
+<div class="card my-5">
+    <div class="card-body">
+        <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div>
+        <table mat-table class="table table-bordered table-striped" [dataSource]="dataSource">
+            <ng-container matColumnDef="user">
+                <th class="center-column" scope="col" *matHeaderCellDef>User</th>
+                <td class="center-column" *matCellDef="let user">{{user.nickname}}</td>
+            </ng-container>
+            <ng-container matColumnDef="roles">
+                <th class="center-column" scope="col" *matHeaderCellDef>Roles</th>
+                <td class="center-column" *matCellDef="let user">
+                    <table class="movements">
+                        <thead>
+                            <tr>
+                                <th scope="col">ROLE</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>USER</td>
+                                <td class="center-column">
+                                    <mat-checkbox class="configuration-checkbox" [(ngModel)]="user.roleUSER"
+                                        (change)="modifyRoles(user)">
+                                    </mat-checkbox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ADMIN</td>
+                                <td class="center-column">
+                                    <mat-checkbox class="configuration-checkbox" [(ngModel)]="user.roleADMIN"
+                                        (change)="modifyRoles(user)">
+                                    </mat-checkbox>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="enable">
+                <th class="center-column" scope="col" *matHeaderCellDef>Enable/Disable</th>
+                <td class="center-column" *matCellDef="let user">
+                    <mat-checkbox class="configuration-checkbox" [(ngModel)]="user.enabled"
+                        (change)="enableDisable(user)"></mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="reset-password">
+                <th class="center-column" scope="col" *matHeaderCellDef>Reset password</th>
+                <td class="center-column" *matCellDef="let user">
+                    <form name="form" (ngSubmit)="onSubmitChangePassword(user)" #f="ngForm" novalidate>
+                        <input type="password" class="form-control" name="password" [(ngModel)]="user.password" required
+                            minlength="6" />
+                        <button class="btn btn-primary btn-block">
+                            Change
+                        </button>
+                    </form>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+                <th class="center-column" scope="col" *matHeaderCellDef>Delete</th>
+                <td class="center-column" *matCellDef="let user">
+                    <button class="button" (click)="openDialog(user)">
+                        <mat-icon aria-hidden="false" aria-label="Scissors" fontIcon="delete"></mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [length]="dataSource.length" [pageSize]="20" [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="true" aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>

@@ -1,6 +1,14 @@
-<div *ngIf="showDialog" class="dialog">
-    <p>{{ message }}</p>
+<mat-card *ngIf="showDialog" class="try-again">
+    <mat-card-content>{{ message }}</mat-card-content>
+</mat-card>
+<div class="button-group">
+    <button class="button" (click)="makeMovement('ROCK')">
+        <mat-icon aria-hidden="false" aria-label="Rock" fontIcon="select_all"></mat-icon>
+    </button>
+    <button class="button" (click)="makeMovement('PAPER')">
+        <mat-icon aria-hidden="false" aria-label="Paper" fontIcon="note"></mat-icon>
+    </button>
+    <button class="button" (click)="makeMovement('SCISSORS')">
+        <mat-icon aria-hidden="false" aria-label="Scissors" fontIcon="content_cut"></mat-icon>
+    </button>
 </div>
-<button (click)="makeMovement('ROCK')">Piedra</button>
-<button (click)="makeMovement('PAPER')">Papel</button>
-<button (click)="makeMovement('SCISSORS')">Tijera</button>

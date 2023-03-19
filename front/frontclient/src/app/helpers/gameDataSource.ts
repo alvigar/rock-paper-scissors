@@ -22,7 +22,7 @@ export class GameDataSource implements DataSource<Game> {
         this.loadingSubject.complete();
     }
 
-    loadGames(gameId?: number, filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 5) {
+    loadGames(gameId?: number, filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 20) {
         this.loadingSubject.next(true);
 
         this.gameService.findAll().pipe(catchError(() => of([])), finalize(() => this.loadingSubject.next(false))).subscribe(games => {
@@ -31,7 +31,6 @@ export class GameDataSource implements DataSource<Game> {
                 for (let i = 0; i < game.movements.length; i += 2) {
                     result.push({ player: game.movements[i].figure as FIGURE, machine: game.movements[i + 1].figure as FIGURE })
                 }
-                console.log(result)
                 game.tuple = result;
                 return game
             })

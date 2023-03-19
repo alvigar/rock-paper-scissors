@@ -1,59 +1,76 @@
 package games.rockpaperscissors.services
 
-import games.rockpaperscissors.dto.JwtResponse
-import games.rockpaperscissors.dto.UserDTO
 import games.rockpaperscissors.entity.ERole
 import games.rockpaperscissors.entity.User
+import games.rockpaperscissors.repository.RoleRepository
 import games.rockpaperscissors.repository.UserRepository
-import games.rockpaperscissors.security.JwtUtils
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
-import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.Authentication
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.web.server.ResponseStatusException
+import java.util.*
 
 @Service
-class UserService(private val userRepository: UserRepository,
-                  private val authenticationManager: AuthenticationManager,
-                  private val encoder: PasswordEncoder,
-                  private val jwtUtils: JwtUtils) {
+class UserService(
+    private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
+    private val encoder: PasswordEncoder
+) {
 
-    fun signUp(userDTO: UserDTO): ResponseEntity<String> {
-        if (userDTO.password != null) {
-            try {
-                val existsUser = userRepository.findUserByNickname(userDTO.user)
-                if (!existsUser.isEmpty) {
-                    return ResponseEntity.badRequest().body("Error: ${userDTO.user} already exists")
-                }
-                val newUser = User(
-                    nickname = userDTO.user,
-                    userPassword = encoder.encode(userDTO.password),
-                    enabled = true,
-                    roles = buildSet { ERole.USER })
-                userRepository.save(newUser)
-                return ResponseEntity.ok().body("${userDTO.user} created successfully")
-            } catch (error: Error) {
-                return ResponseEntity.internalServerError().body("Error creating user: ${error.message}")
-            }
-        } else {
-            return ResponseEntity.badRequest().body("Password is required")
+    fun findAll(): ResponseEntity<List<User>> = ResponseEntity.ok().body(userRepository.findAll())
+
+    fun enable(user: String): ResponseEntity<User> {
+        val userEntity = userRepository.findUserByNickname(user)
+        if (userEntity.isEmpty) {
+            return ResponseEntity.of(userEntity)
         }
+        val newUser = userEntity.get()
+        newUser.enabled = true
+        return ResponseEntity.ok().body(userRepository.save(newUser))
     }
 
-    fun signIn(userDTO: UserDTO): ResponseEntity<JwtResponse> {
-        val authentication: Authentication = authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(userDTO.user, userDTO.password))
+    fun disable(user: String): ResponseEntity<User> {
+        val userEntity = userRepository.findUserByNickname(user)
+        if (userEntity.isEmpty) {
+            return ResponseEntity.of(userEntity)
+        }
+        val newUser = userEntity.get()
+        newUser.enabled = false
+        return ResponseEntity.ok().body(userRepository.save(newUser))
+    }
 
-        SecurityContextHolder.getContext().authentication = authentication
-        val myJwt = jwtUtils.generateJwtToken(authentication)
+    fun modifyRoles(user: String, roles: List<ERole>): ResponseEntity<User> {
+        val userEntity = userRepository.findUserByNickname(user)
+        if (userEntity.isEmpty) {
+            return ResponseEntity.of(userEntity)
+        }
+        val newUser = userEntity.get()
+        val newRoles = roles.map { roleName -> roleRepository.findRoleByRoleName(roleName) }
+        newUser.roles.removeIf { role -> !newRoles.contains(Optional.of(role)) }
+        newRoles.map { newRole ->
+            if (!newUser.roles.contains(newRole.get())) {
+                newUser.roles.add(newRole.get())
+            }
+        }
+        return ResponseEntity.ok().body(userRepository.save(newUser))
+    }
 
-        val user = authentication.principal as UserDetails
-        val roles = user.authorities.map { item -> item.authority }
-        return ResponseEntity.ok( JwtResponse(token = myJwt, username = user.username, roles = roles ) )
+    fun delete(user: String): ResponseEntity<User> {
+        val userEntity = userRepository.findUserByNickname(user)
+        if (userEntity.isEmpty) {
+            return ResponseEntity.notFound().build()
+        }
+        val newUser = userEntity.get()
+        userRepository.delete(newUser)
+        return ResponseEntity.ok().body(newUser)
+    }
+
+    fun modifyPassword(user: String, password: String): ResponseEntity<out Any> {
+        val userEntity = userRepository.findUserByNickname(user)
+        if (userEntity.isEmpty) {
+            return ResponseEntity.notFound().build()
+        }
+        val newUser = userEntity.get()
+        newUser.userPassword = encoder.encode(password)
+        return ResponseEntity.ok().body(userRepository.save(newUser))
     }
 }

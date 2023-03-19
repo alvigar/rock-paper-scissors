@@ -1,0 +1,29 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(102, 155, 168);
+    color: #fff;
+    height: 50px;
+    padding: 0 20px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+}
+
+.left-section a {
+    color: #fff;
+    margin-left: 10px;
+}
+
+.right-section a {
+    color: #fff;
+    margin-left: 10px;
+}
+
+a {
+    color: #fff;
+    margin-left: 10px;
+}

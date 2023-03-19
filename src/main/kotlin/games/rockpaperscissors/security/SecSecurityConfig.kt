@@ -42,11 +42,12 @@ class SecSecurityConfig(private val userDetailsService: UserDetailsService, priv
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthroizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .securityMatcher("/api/auth/**", "/api/game", "/api/game/**")
+            .securityMatcher("/api/auth/**", "/api/game", "/api/game/**", "/api/user/**")
             .authorizeHttpRequests {
                 it.requestMatchers("/api/auth/**").permitAll()
-                it.requestMatchers("/api/game").authenticated()
+                it.requestMatchers("/api/game").permitAll()
                 it.requestMatchers("/api/game/**").authenticated()
+                it.requestMatchers("/api/user/**").hasRole("ADMIN")
                 it.anyRequest().denyAll()
             }
             .authenticationProvider(authenticationProvider())

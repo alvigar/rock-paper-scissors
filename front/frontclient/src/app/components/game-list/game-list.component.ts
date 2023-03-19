@@ -14,6 +14,7 @@ import { GameDataSource } from 'src/app/helpers/gameDataSource';
 export class GameListComponent implements AfterViewInit, OnInit {
   message?: string;
   showDialog = false;
+  isGood: boolean = true;
 
   displayedColumns: string[] = ['id', 'user', 'winner', 'movements', 'play']
   @ViewChild(MatPaginator) paginator?: MatPaginator;
@@ -30,6 +31,8 @@ export class GameListComponent implements AfterViewInit, OnInit {
       const message = params['message'];
       if (message) {
         this.message = message;
+        if (message === 'Sorry... Best luck next time...') this.isGood = false
+        else this.isGood = true
         this.showDialog = true;
         this.closeDialog();
       }

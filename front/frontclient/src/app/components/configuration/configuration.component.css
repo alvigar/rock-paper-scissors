@@ -1,0 +1,49 @@
+.center-column {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.good {
+    background-color: rgb(41, 121, 41);
+}
+
+.bad {
+    background-color: rgb(212, 68, 68);
+}
+.button {
+    width: 80px;
+    height: 80px;
+    font-size: 24px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid  rgb(172, 25, 25);
+    color: rgb(172, 25, 25);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button:hover {
+    background-color:  rgb(172, 25, 25);
+    color: rgb(255, 255, 255);
+}
+
+.mat-mdc-checkbox.mat-accent {
+    --mdc-checkbox-selected-checkmark-color: rgb(255,255,255);
+    --mdc-checkbox-selected-focus-icon-color: rgb(102, 155, 168);
+    --mdc-checkbox-selected-hover-icon-color: rgb(102, 155, 168);
+    --mdc-checkbox-selected-icon-color: rgb(102, 155, 168);
+    --mdc-checkbox-selected-pressed-icon-color: rgb(102, 155, 168);
+    --mdc-checkbox-unselected-focus-icon-color: #212121;
+    --mdc-checkbox-unselected-hover-icon-color: #212121;
+    --mdc-checkbox-disabled-selected-icon-color: rgba(0, 0, 0, 0.38);
+    --mdc-checkbox-disabled-unselected-icon-color: rgba(0, 0, 0, 0.38);
+    --mdc-checkbox-unselected-icon-color: rgba(0, 0, 0, 0.54);
+    --mdc-checkbox-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-mdc-checkbox.mat-accent .mdc-checkbox--selected~.mdc-checkbox__ripple {
+    background: rgb(102, 155, 168);
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark {
+    color: var(--mdc-checkbox-selected-checkmark-color, rgb(102, 155, 168));
+}

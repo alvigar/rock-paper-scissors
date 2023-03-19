@@ -1,19 +1,20 @@
-<div class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a href="" class="navbar-brand">Rock, Paper, Scissors</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="">Home</a></li>
-      <li *ngIf="isLoggedIn"><a routerLink="/newgame">New Game</a></li>
-      <li *ngIf="!isLoggedIn"><a href="/register">Sign Up</a></li>
-      <li *ngIf="!isLoggedIn"><a href="/login">Login</a></li>
-      <li *ngIf="isLoggedIn"> <a href="/profile">{{ username }}</a></li>
-      <li *ngIf="isLoggedIn"><a href class="nav-link" (click)="logout()">LogOut</a></li>
-    </ul>
+<nav>
+  <div class="navbar-header">
+    <a href="" class="navbar-brand">Rock, Paper, Scissors</a>
   </div>
-</div>
-<div class="container">
+  <div class="left-section">
+    <a href="">Home</a>
+    <a *ngIf="isLoggedIn" (click)="newGame()">New Game</a>
+  </div>
+  <div class="right-section">
+    <a *ngIf="!isLoggedIn" href="/register">Sign Up</a>
+    <a *ngIf="!isLoggedIn" href="/login">Login</a>
+    <a *ngIf="isLoggedIn" href="/profile">{{ username }}</a>
+    <a *ngIf="isLoggedIn && showAdminBoard" href="/configuration">Configuration</a>
+    <a *ngIf="isLoggedIn" href="" (click)="logout()">LogOut</a>
+  </div>
+</nav>
+<div class="container" style="padding-top: 20px;">
   <div class="row">
     <div class="col-md-12">
       <router-outlet></router-outlet>

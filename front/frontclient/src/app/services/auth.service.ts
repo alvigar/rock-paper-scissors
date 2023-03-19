@@ -24,8 +24,4 @@ export class AuthService {
     register(user: string, password: string): Observable<any> {
         return this.http.post(`${this.gameUrl}/signup`, { user, password}, httpOptions)
     }
-
-    logout(): Observable<any> {
-        return this.http.post(`${this.gameUrl}/signout`, {}, httpOptions)
-    }
 }

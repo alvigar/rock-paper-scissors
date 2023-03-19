@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { StorageService } from './services/storage.service';
 import { AuthService } from './services/auth.service';
+import { GameService } from './services/game.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +14,13 @@ export class AppComponent {
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
-  showModeratorBoard = false;
   username?: string;
 
-  constructor(private storageService: StorageService, private authService: AuthService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private storageService: StorageService, 
+    private gameService: GameService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
@@ -25,23 +30,24 @@ export class AppComponent {
       this.roles = user?.roles as string[];
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
-      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
       this.username = user?.username;
     }
   }
 
-  logout(): void {
-    this.authService.logout().subscribe({
-      next: res => {
-        console.log(res);
-        this.storageService.clean();
+  newGame() {
+    this.gameService.newGame().subscribe({
+      next: result => this.gotoNewGame(result.id as number),
+      error: err => console.error(err)
+    })
+  }
 
-        window.location.reload();
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+  gotoNewGame(id: number) {
+    this.router.navigate(['/play'], { queryParams: { game_id: id } })
+  }
+
+  logout(): void {
+    this.storageService.clean();
+    window.location.reload();
   }
 }

@@ -1,12 +1,10 @@
 package games.rockpaperscissors.security
 
-import games.rockpaperscissors.services.UserService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetails
@@ -28,6 +26,9 @@ class AuthTokenFilter(private val userService: UserDetailsService, private val j
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 val username: String = jwtUtils.getUserNameFromJwtToken(jwt)
                 val userDetails: UserDetails = userService.loadUserByUsername(username)
+                if (!userDetails.isEnabled) {
+                    throw Exception("$username is not enabled")
+                }
                 val authentication = UsernamePasswordAuthenticationToken(
                     userDetails, null,
                     userDetails.authorities

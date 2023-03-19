@@ -25,10 +25,27 @@ CREATE TABLE IF NOT EXISTS user_detail (
     PRIMARY KEY (id)
 );
 
+INSERT INTO user_detail (nickname, user_password, enabled)
+SELECT 'alfonso', '$2a$10$EcE2mGEUMYtSfHAzG6nC..lzNg6ZoHdFB.ESpek2bSGSWQuuQZP0K', true
+WHERE NOT EXISTS (
+    SELECT id FROM user_detail WHERE nickname = 'alfonso'
+);
+
 CREATE TABLE IF NOT EXISTS role_detail (
     id INT GENERATED ALWAYS AS IDENTITY,
     role_name VARCHAR NOT NULL,
     PRIMARY KEY (id)
+);
+
+INSERT INTO role_detail (role_name)
+SELECT 'USER'
+WHERE NOT EXISTS (
+    SELECT id FROM role_detail WHERE role_name = 'USER'
+);
+INSERT INTO role_detail (role_name)
+SELECT 'ADMIN'
+    WHERE NOT EXISTS (
+    SELECT id FROM role_detail WHERE role_name = 'ADMIN'
 );
 
 CREATE TABLE IF NOT EXISTS user_role (
@@ -41,4 +58,7 @@ CREATE TABLE IF NOT EXISTS user_role (
     CONSTRAINT fk_role
         FOREIGN KEY (id_role)
             REFERENCES role_detail(id)
-)
+);
+
+INSERT INTO user_role (id_user, id_role)
+VALUES (1, 1), (1, 2) ON CONFLICT DO NOTHING;

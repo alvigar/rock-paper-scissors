@@ -1,0 +1,12 @@
+.good {
+    background-color: rgb(41, 121, 41);
+}
+
+.bad {
+    background-color: rgb(212, 68, 68);
+}
+
+.center-column {
+    text-align: center;
+    vertical-align: middle;
+}

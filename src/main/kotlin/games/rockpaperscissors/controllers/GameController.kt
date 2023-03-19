@@ -24,10 +24,7 @@ class GameController(private val gameService: GameService) {
     fun getGames(): ResponseEntity<List<Game>> = gameService.games()
 
     @PostMapping("/new")
-    fun newGame(@RequestBody userDTO: UserDTO): ResponseEntity<Game> = gameService.newGame(userDTO.user)
-
-    @GetMapping("/{id}")
-    fun getGame(@PathVariable("id") id: Int): ResponseEntity<Game> = gameService.getGame(id)
+    fun newGame(@RequestBody userDTO: UserDTO): ResponseEntity<out Any> = gameService.newGame(userDTO.user)
 
     @PutMapping("/{id}/play/{figure}")
     fun play(@PathVariable("id") id: Int, @PathVariable("figure") figure: Figure): ResponseEntity<out Any> = gameService.play(id, figure)

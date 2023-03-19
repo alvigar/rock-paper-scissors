@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GameListComponent } from './components/game-list/game-list.component';
-import { NewGameFormComponent } from './components/newgame-form/newgame-form.component';
 import { GameService } from './services/game.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GamePlayComponent } from './components/game-play/game-play.component';
@@ -16,17 +15,25 @@ import { httpInterceptorProviders } from './helpers/http.interceptor';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { MatIconModule } from '@angular/material/icon';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { ConfigurationComponent } from './components/configuration/configuration.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     GameListComponent,
-    NewGameFormComponent,
     GamePlayComponent,
     RegisterComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
+    ConfigurationComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +43,12 @@ import { ProfileComponent } from './components/profile/profile.component';
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule,
+    FontAwesomeModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule
   ],
   providers: [GameService, httpInterceptorProviders],
   bootstrap: [AppComponent]

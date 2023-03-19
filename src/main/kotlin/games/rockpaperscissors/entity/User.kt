@@ -11,13 +11,14 @@ data class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Int? = null,
-    val nickname: String,
-    val userPassword: String,
+    var nickname: String,
+    var userPassword: String,
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = [JoinColumn(name = "id_user")], inverseJoinColumns = [JoinColumn(name = "id_role")])
-    val roles: Set<Role>,
-    val enabled: Boolean
+    val roles: MutableSet<Role> = mutableSetOf(),
+    var enabled: Boolean
 ) : UserDetails {
+
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return roles.map { SimpleGrantedAuthority("ROLE_${it.roleName}") }
     }
