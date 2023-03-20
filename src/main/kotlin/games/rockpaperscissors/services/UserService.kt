@@ -1,7 +1,7 @@
 package games.rockpaperscissors.services
 
-import games.rockpaperscissors.entity.ERole
-import games.rockpaperscissors.entity.User
+import games.rockpaperscissors.model.ERole
+import games.rockpaperscissors.model.User
 import games.rockpaperscissors.repository.RoleRepository
 import games.rockpaperscissors.repository.UserRepository
 import org.springframework.http.ResponseEntity

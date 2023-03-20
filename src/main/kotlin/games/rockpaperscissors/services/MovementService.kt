@@ -1,8 +1,8 @@
 package games.rockpaperscissors.services
 
-import games.rockpaperscissors.entity.Figure
-import games.rockpaperscissors.entity.Movement
-import games.rockpaperscissors.entity.Player
+import games.rockpaperscissors.model.Figure
+import games.rockpaperscissors.model.Movement
+import games.rockpaperscissors.model.Player
 import games.rockpaperscissors.repository.MovementRepository
 import org.springframework.stereotype.Service
 

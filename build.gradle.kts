@@ -1,16 +1,19 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	java
 	id("org.springframework.boot") version "3.0.4"
-	id("io.spring.dependency-management") version "1.1.0"
+	id("io.ktor.plugin") version "2.2.3"
 	kotlin("jvm") version "1.8.0"
 	kotlin("plugin.spring") version "1.8.0"
 	kotlin("plugin.jpa") version "1.8.0"
 	kotlin("plugin.allopen") version "1.8.0"
 }
 
+apply(plugin = "io.spring.dependency-management")
+
 group = "games"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -37,6 +40,19 @@ allOpen {
 	annotation("jakarta.persistence.Entity")
 	annotation("jakarta.persistence.Embeddable")
 	annotation("jakarta.persistence.MappedSuperclass")
+}
+
+springBoot {
+	mainClass.set("games.rockpaperscissors.RockPaperScissorsApplicationKt")
+}
+
+
+application {
+	mainClass.set("games.rockpaperscissors.RockPaperScissorsApplicationKt")
+}
+
+tasks.named<Jar>("jar") {
+	enabled = false
 }
 
 tasks.withType<KotlinCompile> {

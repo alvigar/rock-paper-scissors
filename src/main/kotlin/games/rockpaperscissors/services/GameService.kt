@@ -1,6 +1,6 @@
 package games.rockpaperscissors.services
 
-import games.rockpaperscissors.entity.*
+import games.rockpaperscissors.model.*
 import games.rockpaperscissors.repository.GameRepository
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.authority.SimpleGrantedAuthority

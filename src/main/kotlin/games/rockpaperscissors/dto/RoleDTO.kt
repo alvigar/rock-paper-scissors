@@ -1,6 +1,6 @@
 package games.rockpaperscissors.dto
 
-import games.rockpaperscissors.entity.ERole
+import games.rockpaperscissors.model.ERole
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 

@@ -1,11 +1,10 @@
 package games.rockpaperscissors.controllers
 
 import games.rockpaperscissors.dto.UserDTO
-import games.rockpaperscissors.entity.Figure
-import games.rockpaperscissors.entity.Game
+import games.rockpaperscissors.model.Figure
+import games.rockpaperscissors.model.Game
 import games.rockpaperscissors.services.GameService
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/game")
-@CrossOrigin(origins = ["http://localhost:4200"], maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = ["http://localhost:8000"], maxAge = 3600, allowCredentials="true")
 class GameController(private val gameService: GameService) {
 
     @GetMapping("")

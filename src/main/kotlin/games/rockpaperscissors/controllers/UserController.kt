@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin(origins = ["http://localhost:4200"], maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = ["http://localhost:8000"], maxAge = 3600, allowCredentials="true")
 class UserController(private val userService: UserService) {
 
     @GetMapping()

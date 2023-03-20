@@ -1,6 +1,6 @@
 package games.rockpaperscissors.repository
 
-import games.rockpaperscissors.entity.Movement
+import games.rockpaperscissors.model.Movement
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

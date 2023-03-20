@@ -1,10 +1,8 @@
 package games.rockpaperscissors.repository
 
-import games.rockpaperscissors.entity.Game
-import games.rockpaperscissors.entity.Player
+import games.rockpaperscissors.model.Game
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import java.util.*
 
 @Repository
 interface GameRepository : CrudRepository<Game, Int> {

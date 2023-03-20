@@ -1,0 +1,4 @@
+frontclient/.vscode/*
+frontclient/node_modules
+frontclient/dist
+*.zip

@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS user_detail (
 );
 
 INSERT INTO user_detail (nickname, user_password, enabled)
-SELECT 'alfonso', '$2a$10$EcE2mGEUMYtSfHAzG6nC..lzNg6ZoHdFB.ESpek2bSGSWQuuQZP0K', true
+SELECT 'admin', '$2a$10$EcE2mGEUMYtSfHAzG6nC..lzNg6ZoHdFB.ESpek2bSGSWQuuQZP0K', true
 WHERE NOT EXISTS (
-    SELECT id FROM user_detail WHERE nickname = 'alfonso'
+    SELECT id FROM user_detail WHERE nickname = 'admin'
 );
 
 CREATE TABLE IF NOT EXISTS role_detail (

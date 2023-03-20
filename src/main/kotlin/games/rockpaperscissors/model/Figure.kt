@@ -1,4 +1,4 @@
-package games.rockpaperscissors.entity
+package games.rockpaperscissors.model
 
 import java.util.*
 

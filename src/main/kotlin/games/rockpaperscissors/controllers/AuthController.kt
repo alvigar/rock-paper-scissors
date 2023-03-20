@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = ["http://localhost:4200"], maxAge = 3600, allowCredentials="true")
+@CrossOrigin(origins = ["http://localhost:8000"], maxAge = 3600, allowCredentials="true")
 class AuthController(private val authService: AuthService) {
 
     @PostMapping("/signup")

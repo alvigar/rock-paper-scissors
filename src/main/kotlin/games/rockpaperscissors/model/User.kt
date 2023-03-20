@@ -1,4 +1,4 @@
-package games.rockpaperscissors.entity
+package games.rockpaperscissors.model
 
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
